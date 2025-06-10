@@ -1,0 +1,88 @@
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+  <mat-card class="w-full max-w-md p-6">
+    <mat-card-header class="mb-6 flex flex-col items-center">
+      <img src="assets/images/logo.png" alt="Logo" class="w-32 h-32 mb-4" />
+      <mat-card-title class="text-2xl font-bold text-center w-full"
+        >Sign Up</mat-card-title
+      >
+    </mat-card-header>
+
+    <mat-card-content>
+      <div
+        *ngIf="error$ | async as error"
+        class="mb-4 p-3 bg-red-100 text-red-700 rounded"
+      >
+        {{ error }}
+      </div>
+
+      <form
+        [formGroup]="signinForm"
+        (ngSubmit)="onSubmit()"
+        class="flex flex-col gap-4"
+      >
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            formControlName="username"
+            placeholder="Enter your username"
+          />
+          <mat-error *ngIf="signinForm.get('username')?.hasError('required')">
+            Username is required
+          </mat-error>
+          <mat-error *ngIf="signinForm.get('username')?.hasError('minlength')">
+            Username must be at least 3 characters
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+            placeholder="Enter your password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hidePassword = !hidePassword"
+            type="button"
+          >
+            <mat-icon>{{
+              hidePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+          <mat-error *ngIf="signinForm.get('password')?.hasError('required')">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="signinForm.get('password')?.hasError('minlength')">
+            Password must be at least 6 characters
+          </mat-error>
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!signinForm.valid"
+          class="mt-4"
+        >
+          Sign Up
+        </button>
+
+        <div class="text-center mt-4">
+          <span class="text-gray-600">Already have an account?</span>
+          <a
+            mat-button
+            color="primary"
+            class="ml-2"
+            [routerLink]="['/auth/signup']"
+          >
+            Login
+          </a>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

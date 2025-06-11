@@ -6,11 +6,13 @@ import { AuthService } from '../../../services/auth.service';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TokenService } from '../../../services/token.service';
 
 @Injectable()
 export class AuthEffects {
   private readonly actions$ = inject(Actions);
   private readonly authService = inject(AuthService);
+  private readonly tokenService = inject(TokenService);
 
   login$ = createEffect(() => {
     return this.actions$.pipe(

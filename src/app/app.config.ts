@@ -8,7 +8,14 @@ import { errorReducer } from './core/state/reducers/error.reducer';
 import { environment } from './environments/environment';
 import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './core/state/effects/auth.effect';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
+import { TokenInterceptor } from './services/token-interceptor.service';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,10 +26,12 @@ export const appConfig: ApplicationConfig = {
       errors: errorReducer,
     }),
     provideEffects(AuthEffects),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([TokenInterceptor])),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !environment.production,
     }),
+    provideAnimations(),
+    provideCharts(withDefaultRegisterables()),
   ],
 };

@@ -1,0 +1,46 @@
+version: "3.8"
+
+volumes:
+  postgres_data:
+
+services:
+  postgres:
+    image: postgres:15
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: stock_management
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  
+  frontend:
+    build: ./frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: stock_management
+      DB_PORT: 5432
+      JWT_SECRET: stock_management
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+
+  # scanner:
+  #   image: aquasec/trivy:latest
+  #   volumes:
+  #     - "/var/run/docker.sock:/var/run/docker.sock"
+  #   command: ["image", "frontend", "backend"]
+  #   depends_on:
+  #     - frontend
+  #     - backend

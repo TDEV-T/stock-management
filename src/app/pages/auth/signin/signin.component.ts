@@ -17,9 +17,11 @@ import { AuthActions } from '../../../core/state/actions/auth.action';
 import {
   selectAuthError,
   selectIsAuthenticated,
+  selectSignupSuccess,
 } from '../../../core/state/selectors/auth.selector';
 import { Observable } from 'rxjs';
 import { AppState } from '../../../core/state/app.state';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-signin',
@@ -36,16 +38,17 @@ import { AppState } from '../../../core/state/app.state';
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.css',
 })
-export class SigninComponent {
+export class SigninComponent implements OnInit {
   signinForm: FormGroup;
   hidePassword = true;
   error$: Observable<string | null>;
   isAuthenticated$: Observable<boolean>;
-
+  isSignupSuccess$: Observable<boolean | undefined>;
   constructor(
     private fb: FormBuilder,
     private store: Store<AppState>,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.signinForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
@@ -53,6 +56,7 @@ export class SigninComponent {
     });
     this.error$ = this.store.select(selectAuthError);
     this.isAuthenticated$ = this.store.select(selectIsAuthenticated);
+    this.isSignupSuccess$ = this.store.select(selectSignupSuccess);
   }
 
   ngOnInit() {
@@ -67,6 +71,13 @@ export class SigninComponent {
     if (this.signinForm.valid) {
       const { username, email, password } = this.signinForm.value;
       this.store.dispatch(AuthActions.login({ username, password }));
+    }
+  }
+
+  onSignup() {
+    if (this.signinForm.valid) {
+      const { username, email, password } = this.signinForm.value;
+      this.store.dispatch(AuthActions.signup({ username, email, password }));
     }
   }
 }

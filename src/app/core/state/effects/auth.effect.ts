@@ -48,12 +48,15 @@ export class AuthEffects {
       ofType(AuthActions.signup),
       mergeMap(({ username, password, email }) =>
         this.authService.signup(username, email, password).pipe(
-          map((response) =>
-            AuthActions.signupSuccess({
+          map((response) => {
+            console.log('Signup response:', response);
+            return AuthActions.signupSuccess({
               user: response.user,
               token: response.token,
-            })
-          ),
+              signupSuccess: true,
+              loginSuccess: false,
+            });
+          }),
           catchError((error: HttpErrorResponse) => {
             const errorMessage =
               error.error?.message || error.error?.error || 'Signup failed';

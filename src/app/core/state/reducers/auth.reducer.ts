@@ -6,12 +6,16 @@ export interface AuthState {
   user: User | null;
   token: string | null;
   error: string | null;
+  signupSuccess?: boolean;
+  loginSuccess?: boolean;
 }
 
 export const initialState: AuthState = {
   user: null,
   token: null,
   error: null,
+  signupSuccess: false,
+  loginSuccess: false,
 };
 
 export const authReducer = createReducer(
@@ -34,10 +38,12 @@ export const authReducer = createReducer(
     ...state,
     error: null,
   })),
-  on(AuthActions.signupSuccess, (state, { user, token }) => ({
+  on(AuthActions.signupSuccess, (state, { user, token,signupSuccess,loginSuccess }) => ({
     ...state,
     user,
     token,
+    signupSuccess,
+    loginSuccess,
     error: null,
   })),
   on(AuthActions.signupFailure, (state, { error }) => ({

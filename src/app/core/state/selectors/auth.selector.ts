@@ -22,3 +22,14 @@ export const selectIsAuthenticated = createSelector(
   selectAuthState,
   (state) => !!state.token
 );
+
+
+export const selectSignupSuccess = createSelector(
+  selectAuthState,
+  (state) => state.signupSuccess
+);
+
+export const selectLoginSuccess = createSelector(
+  selectAuthState,
+  (state) => state.loginSuccess
+);

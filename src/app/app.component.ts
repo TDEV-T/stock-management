@@ -10,10 +10,7 @@ import { TokenService } from './services/token.service';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, ErrorHandlerComponent, MatSnackBarModule],
-  template: `
-    <app-error-handler></app-error-handler>
-    <router-outlet></router-outlet>
-  `,
+  templateUrl:'./app.component.html',
 })
 export class AppComponent {
   title = 'stock-management';

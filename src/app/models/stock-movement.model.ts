@@ -6,11 +6,6 @@ export interface StockMovement {
   quantity: number;
   date: Date;
   notes: string;
-  product: {
-    name: string;
-    imageURL: string;
-  };
-  user: {
-    username: string;
-  };
+  product: Product;
+  user: User;
 } 

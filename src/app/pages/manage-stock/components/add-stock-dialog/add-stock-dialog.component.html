@@ -47,6 +47,14 @@
     <mat-error>Category is required.</mat-error>
     }
   </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>SKU</mat-label>
+    <input matInput formControlName="sku" placeholder="Enter SKU" required />
+    @if (addStockForm.get('sku')?.hasError('required') && addStockForm.get('sku')?.touched) {
+      <mat-error>SKU is required.</mat-error>
+    }
+  </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" class="p-4 border-t">

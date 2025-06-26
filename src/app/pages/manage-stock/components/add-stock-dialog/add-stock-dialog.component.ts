@@ -45,6 +45,7 @@ export class AddStockDialogComponent implements OnInit {
 
   constructor() {
     this.addStockForm = this.fb.group({
+      sku: ['', Validators.required],
       name: ['', Validators.required],
       description: [''],
       categoryId: ['', Validators.required],

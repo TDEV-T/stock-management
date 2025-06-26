@@ -42,6 +42,7 @@ export class ManageStockPageComponent implements OnInit {
   @ViewChild(MatTable) table!: MatTable<Product>;
 
   displayedColumns: string[] = [
+    'sku',
     'image',
     'name',
     'description',

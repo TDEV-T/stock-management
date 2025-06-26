@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { StockService } from '../../../../services/stock.service';
 import { Product } from '../../../../models/product.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-stock-movement-dialog',
@@ -95,6 +96,7 @@ export class StockMovementDialogComponent {
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<StockMovementDialogComponent>,
     private stockService: StockService,
+    private snackBar:MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: { type: 'import' | 'export' }
   ) {
     this.form = this.fb.group({
@@ -140,6 +142,9 @@ export class StockMovementDialogComponent {
         },
         error: (error) => {
           console.error(`Error ${this.data.type}ing stock:`, error);
+          this.snackBar.open(error.error.error, 'Close', {
+            duration: 3000,
+          });
           // You might want to show an error message to the user here
         },
       });
